@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameOn Garb | World Cup 2026 Jerseys</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <!-- Main container -->
+  <div class="container">
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+
+      <!-- ✅ Brand Bar -->
+      <div class="brand-bar">
+        <a class="brand-left" href="https://gameongarb.com/" target="_blank" rel="noopener">
+          <img src="/images/gameongarb-logo.png" alt="GameOn Garb Logo" class="brand-logo">
+          <div class="brand-text">
+            <div class="brand-name">GameOn Garb</div>
+            <div class="brand-sub">Official Website: gameongarb.com</div>
+          </div>
+        </a>
+
+        <a class="brand-link" href="https://gameongarb.com/" target="_blank" rel="noopener">
+          Visit Official Site <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </div>
+      <!-- ✅ End Brand Bar -->
+
+      <div class="hero-content">
+        <h1>
+          <span>⚽ World Cup 2026 Official Style Jersey</span>
+          <span>প্রিমিয়াম কোয়ালিটি | খেলার জন্য ও ক্যাজুয়াল ইউজের জন্য পারফেক্ট</span>
+        </h1>
+
+        <!-- Price block will be filled dynamically -->
+        <div class="price-block" id="priceBlock">
+          <del>৳1,800</del>
+          <ins>৳1,250</ins>
+        </div>
+
+        <!-- Delivery promise icons -->
+        <div class="delivery-promise">
+          <div class="delivery-item">✅ Cash on Delivery</div>
+          <div class="delivery-item">✅ All Bangladesh Delivery</div>
+          <div class="delivery-item">⏱️ 24–72 Hours Delivery</div>
+        </div>
+
+        <!-- Primary CTA scrolls to order form -->
+        <a href="#orderFormSection" class="primary-btn" id="orderNowHero">অর্ডার করুন এখনই</a>
+      </div>
+
+      <!-- Hero Image / Slider -->
+      <div class="hero-image">
+        <div class="hero-carousel" id="heroCarousel">
+          <button class="hero-nav prev" id="heroPrev" type="button" aria-label="Previous">‹</button>
+
+          <div class="hero-viewport">
+            <div class="hero-track" id="heroTrack">
+              <!-- Slides injected by JS -->
+            </div>
+          </div>
+
+          <button class="hero-nav next" id="heroNext" type="button" aria-label="Next">›</button>
+        </div>
+
+        <div class="hero-dots" id="heroDots"></div>
+      </div>
+    </section>
+
+    <!-- Trust & Social Proof Bar -->
+    <section class="trust-bar">
+      <div class="trust-item"><i class="fa-solid fa-users"></i><span>10,000+ Happy Customers</span></div>
+      <div class="trust-item"><i class="fa-solid fa-check-circle"></i><span>Trusted Bangladeshi Brand</span></div>
+      <div class="trust-item"><i class="fa-solid fa-retweet"></i><span>7 Days Easy Exchange</span></div>
+      <div class="trust-item"><i class="fa-solid fa-lock"></i><span>Secure Cash on Delivery</span></div>
+    </section>
+
+    <!-- Product Highlights -->
+    <section class="highlights">
+      <h2>কেন GameOn World Cup Jersey বেস্ট?</h2>
+      <ul class="highlight-list">
+        <li><i class="fa-solid fa-tshirt"></i> 🧵 Premium Polyester Fabric – ঘাম শোষণ করে</li>
+        <li><i class="fa-solid fa-wind"></i> 🌬️ Breathable & Lightweight</li>
+        <li><i class="fa-solid fa-futbol"></i> 🏃‍♂️ Match + Practice + Casual Wear</li>
+        <li><i class="fa-solid fa-palette"></i> 🎨 Color Fade হবে না</li>
+        <li><i class="fa-solid fa-hand-scissors"></i> 🪡 Strong Stitching</li>
+      </ul>
+    </section>
+
+    <!-- Product Selection Section -->
+    <section class="product-selection">
+      <h2>পছন্দের জার্সি বেছে নিন</h2>
+      <div class="product-grid" id="productGrid">
+        <!-- Product cards will be injected here dynamically -->
+      </div>
+    </section>
+
+    <!-- Close-Up Product Showcase (gallery) -->
+    <section class="gallery" id="gallery">
+      <!-- Images will be injected dynamically from JS to showcase close-ups -->
+    </section>
+
+    <!-- Size Guide -->
+    <section class="size-guide" id="sizeGuide">
+      <h3>সাইজ সিলেক্ট করতে সমস্যা?</h3>
+      <table class="size-chart">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Chest (inch)</th>
+            <th>Length (inch)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>M</td><td>38</td><td>27</td></tr>
+          <tr><td>L</td><td>40</td><td>28</td></tr>
+          <tr><td>XL</td><td>42</td><td>29</td></tr>
+          <tr><td>XXL</td><td>44</td><td>30</td></tr>
+        </tbody>
+      </table>
+      <p class="size-tip">⚠️ সন্দেহ হলে এক সাইজ বড় নিন</p>
+    </section>
+
+    <!-- Customer Reviews -->
+    <section class="reviews">
+      <h3>গ্রাহকদের মতামত</h3>
+      <div class="review-list">
+        <div class="review-card">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i></div>
+          <p>জার্সির কোয়ালিটি অনেক ভালো। ডেলিভারিও ফাস্ট।</p>
+          <div class="author">— Rahim, Mirpur</div>
+        </div>
+        <div class="review-card">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p>ঠিক সময় ডেলিভারি পেয়েছি। গায়ে খুব আরামদায়ক, মজা লেগেছে।</p>
+          <div class="author">— Sumaiya, Dhaka</div>
+        </div>
+        <div class="review-card">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p>আমার ভাইয়ের জন্য অর্ডার করেছিলাম, সে অনেক খুশি।</p>
+          <div class="author">— Hasan, Chattogram</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+      <h3>লাইভ ভিডিওতে দেখুন কোয়ালিটি</h3>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Product Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <!-- Offer & Urgency Section -->
+    <section class="offer-section">
+      <h3>🔥 আজ অর্ডার করলে পাচ্ছেন বিশেষ ছাড়!</h3>
+      <p>⏰ Limited Stock Alert — World Cup Special Offer</p>
+      <p>🎁 Free Delivery (Dhaka) / Discount (Outside)</p>
+      <a href="#orderFormSection" class="primary-btn">অর্ডার কনফার্ম করুন</a>
+    </section>
+
+    <!-- Order Form Section -->
+    <section class="order-section" id="orderFormSection">
+      <h3>📦 অর্ডার কনফার্ম করতে নিচের ফর্মটি পূরণ করুন</h3>
+      <form id="orderForm" class="order-form" autocomplete="on">
+        <div class="field">
+          <label for="productSelect">পণ্য নির্বাচন করুন *</label>
+          <select id="productSelect" required>
+            <!-- Options will be populated dynamically -->
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="customerName">আপনার নাম *</label>
+          <input type="text" id="customerName" placeholder="যেমন: Arfin Naim" required>
+        </div>
+
+        <div class="field">
+          <label for="customerPhone">মোবাইল নাম্বার *</label>
+          <input type="tel" id="customerPhone" placeholder="01XXXXXXXXX" pattern="01[0-9]{9}" required>
+          <small>এই নাম্বারে কল করে অর্ডার কনফার্ম করা হবে</small>
+        </div>
+
+        <div class="field">
+          <label for="deliveryArea">ডেলিভারি এলাকা *</label>
+          <select id="deliveryArea" required>
+            <option value="" disabled selected>ডেলিভারি এলাকা সিলেক্ট করুন</option>
+            <option value="inside">ঢাকা সিটির ভিতরে</option>
+            <option value="outside">ঢাকার বাইরে</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="customerAddress">সম্পূর্ণ ঠিকানা *</label>
+          <textarea id="customerAddress" placeholder="বাসা/রোড/এলাকা, থানা, জেলা" required></textarea>
+          <small>উদাহরণ: 14/A, Mirpur 2, Dhaka</small>
+        </div>
+
+        <div class="field">
+          <label for="productSize">জার্সির সাইজ *</label>
+          <select id="productSize" required>
+            <option value="" disabled selected>সাইজ সিলেক্ট করুন</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+          </select>
+          <small>⚠️ সন্দেহ হলে এক সাইজ বড় নিন</small>
+        </div>
+
+        <div class="field">
+          <label for="productQuantity">পরিমাণ</label>
+          <select id="productQuantity">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+
+        <div class="order-summary" id="orderSummary">
+          <p><span>পণ্য মূল্য:</span> <span id="summaryProductPrice">৳0</span></p>
+          <p><span>ডেলিভারি চার্জ:</span> <span id="summaryDeliveryCharge">৳0</span></p>
+          <p class="total"><span>মোট:</span> <span id="summaryTotal">৳0</span></p>
+        </div>
+
+        <button type="submit" id="submitOrder" class="submit-btn" disabled>🛒 Cash on Delivery অর্ডার করুন</button>
+        <div class="micro-trust">🔒 আপনার তথ্য সম্পূর্ণ নিরাপদ</div>
+      </form>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <h3>প্রায়ই জিজ্ঞেস করা প্রশ্ন (FAQ)</h3>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>কাপড় কি ভালো?</summary>
+          <p>আমাদের জার্সি উচ্চমানের পলিয়েস্টার ফ্যাব্রিক দিয়ে তৈরি যা ঘাম শোষণ করে এবং আরামদায়ক।</p>
+        </details>
+        <details class="faq-item">
+          <summary>কালার যাবে না তো?</summary>
+          <p>না, উন্নত প্রিন্টিং প্রযুক্তি ব্যবহারের ফলে কালার ফেড হওয়ার ভয় নেই।</p>
+        </details>
+        <details class="faq-item">
+          <summary>ডেলিভারি চার্জ কত?</summary>
+          <p>ঢাকার ভিতরে ৭০ টাকা এবং ঢাকার বাইরে ১৩০ টাকা ডেলিভারি চার্জ।</p>
+        </details>
+        <details class="faq-item">
+          <summary>সাইজ ঠিক না হলে কি করবেন?</summary>
+          <p>সাইজ সমস্যা হলে ৭ দিনের মধ্যে পরিবর্তন করা যাবে।</p>
+        </details>
+        <details class="faq-item">
+          <summary>ঢাকার বাইরে পাঠান?</summary>
+          <p>জি, আমরা বাংলাদেশে সব জায়গায় ডেলিভারি করি।</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+      <h3>এখনও অর্ডার করেননি?</h3>
+      <a href="#orderFormSection" class="primary-btn">এখনই অর্ডার করুন</a>
+    </section>
+
+    <!-- ✅ Footer -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="/images/gameongarb-logo.png" alt="GameOn Garb Logo" class="footer-logo">
+          <div>
+            <div class="footer-title">GameOn Garb</div>
+            <div class="footer-sub">Official Sportswear Brand in Bangladesh</div>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <a href="https://gameongarb.com/" target="_blank" rel="noopener"><i class="fa-solid fa-globe"></i> gameongarb.com</a>
+          <a href="https://gameongarb.com/category/world-cup-2026-jersey" target="_blank" rel="noopener"><i class="fa-solid fa-shirt"></i> World Cup 2026 Jerseys</a>
+          <a href="https://wa.me/8801711992409" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp Order</a>
+        </div>
+
+        <div class="footer-note">
+          <div><i class="fa-solid fa-truck-fast"></i> Dhaka Delivery ৳70 | Outside Dhaka ৳130</div>
+          <div><i class="fa-solid fa-money-bill-wave"></i> 100% Cash on Delivery</div>
+          <div><i class="fa-solid fa-rotate"></i> 7 Days Easy Exchange</div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © <span id="yearNow"></span> GameOn Garb. All rights reserved.
+      </div>
+    </footer>
+    <!-- ✅ End Footer -->
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const y = document.getElementById("yearNow");
+      if (y) y.textContent = new Date().getFullYear();
+    });
+  </script>
+
+  <script src="/js/main.js"></script>
+  <!-- Sticky WhatsApp Button -->
+<a
+  href="https://wa.me/8801711992409"
+  target="_blank"
+  class="whatsapp-float"
+  id="whatsappFloat"
+  aria-label="Chat on WhatsApp"
+>
+  <span class="wa-icon">
+    <i class="fa-brands fa-whatsapp"></i>
+  </span>
+  <span class="wa-text">
+    WhatsApp Order
+    <small>Instant Support</small>
+  </span>
+</a>
+
+</body>
+</html>
