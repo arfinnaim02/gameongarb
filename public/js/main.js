@@ -6,9 +6,9 @@
  */
 
 let products = [];
-let selectedProduct = null;
+let selectedProduct = null; // ✅ This will be the ORDER product (dropdown + summary)
 
-let heroIndex = 0;
+let heroIndex = 0;          // ✅ This will be the HERO display index
 let heroTimer = null;
 
 // Helper: fetch product data from API
@@ -16,31 +16,37 @@ async function fetchProducts() {
   try {
     const res = await fetch('/api/products');
     products = await res.json();
+
     if (products.length > 0) {
-      // Use the first product as default hero product
-      selectedProduct = products[0];
+      // Default hero is first product
       heroIndex = 0;
+
+      // ✅ Default order product is also first product (only initially)
+      selectedProduct = products[0];
     }
 
     // After fetching, render everything
-    renderHero();               // price block (left)
+    renderHero();               // price block (based on HERO product)
     renderHeroCarousel();       // carousel (right)
     renderGallery();
     renderProductGrid();
-    populateProductDropdown();
-    updateSummary();
+    populateProductDropdown();  // dropdown uses ORDER product
+    updateSummary();            // summary uses ORDER product
     validateForm();
   } catch (err) {
     console.error('Failed to load products:', err);
   }
 }
 
-// Render the hero price block based on selected product
+// ✅ Render the hero price block based on HERO product (NOT dropdown/order)
 function renderHero() {
-  if (!selectedProduct) return;
+  const heroProduct = products[heroIndex] || selectedProduct;
+  if (!heroProduct) return;
 
   const priceBlock = document.getElementById('priceBlock');
-  priceBlock.innerHTML = `<del>৳${selectedProduct.regularPrice}</del><ins>৳${selectedProduct.offerPrice}</ins>`;
+  if (priceBlock) {
+    priceBlock.innerHTML = `<del>৳${heroProduct.regularPrice}</del><ins>৳${heroProduct.offerPrice}</ins>`;
+  }
 }
 
 // Render Hero Carousel (all products)
@@ -70,9 +76,10 @@ function renderHeroCarousel() {
       </div>
     `;
 
-    // Clicking slide selects product and scrolls to order form
+    // ✅ Clicking slide SHOULD set order product (user intent)
     slide.addEventListener("click", () => {
       setHeroIndex(idx, true);
+      selectProduct(p, true, false); // user-driven change
     });
 
     track.appendChild(slide);
@@ -80,14 +87,22 @@ function renderHeroCarousel() {
     const dot = document.createElement("button");
     dot.type = "button";
     dot.className = "hero-dot" + (idx === heroIndex ? " active" : "");
-    dot.addEventListener("click", () => setHeroIndex(idx, false));
+    dot.addEventListener("click", () => {
+      setHeroIndex(idx, false);
+      // ✅ dot click only changes hero display, not order product
+    });
     dots.appendChild(dot);
   });
 
-  prev.onclick = () => setHeroIndex((heroIndex - 1 + products.length) % products.length, false);
-  next.onclick = () => setHeroIndex((heroIndex + 1) % products.length, false);
+  prev.onclick = () => {
+    setHeroIndex((heroIndex - 1 + products.length) % products.length, false);
+    // ✅ prev/next only changes hero display, not order product
+  };
 
-  // Set initial position
+  next.onclick = () => {
+    setHeroIndex((heroIndex + 1) % products.length, false);
+  };
+
   applyHeroPosition();
   startHeroAuto();
 }
@@ -101,32 +116,28 @@ function applyHeroPosition() {
   }
 
   dots.forEach((d, i) => d.classList.toggle("active", i === heroIndex));
+
+  // ✅ Update hero price when hero slide changes
+  renderHero();
 }
 
-function setHeroIndex(idx, scrollToForm) {
+function setHeroIndex(idx, restartAuto) {
   heroIndex = idx;
   applyHeroPosition();
-
-  const p = products[heroIndex];
-  if (p) {
-    selectProduct(p, scrollToForm, true); // third param: fromCarousel
-  }
-
-  restartHeroAuto();
+  if (restartAuto) restartHeroAuto();
 }
 
 function startHeroAuto() {
   if (heroTimer) clearInterval(heroTimer);
+
   heroTimer = setInterval(() => {
     if (!products || products.length === 0) return;
+
     heroIndex = (heroIndex + 1) % products.length;
     applyHeroPosition();
 
-    const p = products[heroIndex];
-    if (p) {
-      // Auto slide should NOT scroll to form
-      selectProduct(p, false, true);
-    }
+    // ✅ IMPORTANT: Auto slide should NOT call selectProduct()
+    // So dropdown/order selection stays stable.
   }, 4500);
 }
 
@@ -139,14 +150,21 @@ function renderGallery() {
   const gallery = document.getElementById('gallery');
   if (!gallery || products.length === 0) return;
 
-  // Choose the first 4 products for gallery display (or duplicate if less)
   const images = [];
   for (let i = 0; i < 4; i++) {
     const product = products[i % products.length];
     images.push(product.image);
   }
 
-
+  gallery.innerHTML = images
+    .map(
+      (src) =>
+        `<figure>
+          <img src="${src}" alt="Product close-up" loading="lazy">
+          <figcaption>High-Quality Print | Long-Lasting Fabric</figcaption>
+        </figure>`
+    )
+    .join('');
 }
 
 // Render product grid with cards for each jersey
@@ -159,16 +177,16 @@ function renderProductGrid() {
     const card = document.createElement('div');
     card.className = 'product-card' + (selectedProduct && product.id === selectedProduct.id ? ' active' : '');
     card.innerHTML = `
-      <img src="${product.image}" alt="${product.name}">
+      <img src="${product.image}" alt="${product.name}" loading="lazy">
       <h4>${product.name}</h4>
       <div class="price"><del>৳${product.regularPrice}</del> <ins>৳${product.offerPrice}</ins></div>
     `;
 
     card.addEventListener('click', () => {
-      // Select product + scroll
+      // ✅ user intent => change order product
       selectProduct(product, true, false);
 
-      // Also move carousel to this product
+      // sync hero to this product (nice UX)
       const idx = products.findIndex(p => p.id === product.id);
       if (idx >= 0) {
         heroIndex = idx;
@@ -188,7 +206,6 @@ function populateProductDropdown() {
 
   select.innerHTML = '';
 
-  // Add a disabled default option
   const defaultOption = document.createElement('option');
   defaultOption.value = '';
   defaultOption.disabled = true;
@@ -203,41 +220,28 @@ function populateProductDropdown() {
     select.appendChild(opt);
   });
 
-  // If we already have selectedProduct, set it
+  // ✅ Set dropdown to selectedProduct ONLY on initial load / user selection
   if (selectedProduct) {
     select.value = selectedProduct.id;
   }
 }
 
-// Select a product and update UI
-function selectProduct(product, scrollToForm = false, fromCarousel = false) {
+// Select a product and update UI (ORDER product)
+function selectProduct(product, scrollToForm = false, fromAuto = false) {
   selectedProduct = product;
 
-  // Update hero price
-  renderHero();
-
-  // Re-render grid to highlight selected card
+  // ✅ Update grid highlight
   renderProductGrid();
 
-  // Set dropdown value
+  // ✅ Update dropdown value ONLY on user-driven changes
+  // (fromAuto is here for safety; we don't call selectProduct() from auto anymore)
   const select = document.getElementById('productSelect');
-  if (select) {
+  if (select && !fromAuto) {
     select.value = product.id;
   }
 
   updateSummary();
   validateForm();
-
-  // If selection is NOT coming from carousel auto-slide,
-  // keep carousel synced (for dropdown/grid changes)
-  if (!fromCarousel) {
-    const idx = products.findIndex(p => p.id === product.id);
-    if (idx >= 0) {
-      heroIndex = idx;
-      applyHeroPosition();
-      restartHeroAuto();
-    }
-  }
 
   if (scrollToForm) {
     document.getElementById('orderFormSection').scrollIntoView({ behavior: 'smooth' });
@@ -253,14 +257,12 @@ function updateSummary() {
 
   const productPrice = selectedProduct.offerPrice * qty;
 
-  // Determine delivery charge: 70 for inside Dhaka, 130 for outside, 0 if not selected
   let deliveryCharge = 0;
   if (area === 'inside') deliveryCharge = 70;
   else if (area === 'outside') deliveryCharge = 130;
 
   const total = productPrice + deliveryCharge;
 
-  // Update DOM
   document.getElementById('summaryProductPrice').textContent = `৳${productPrice}`;
   document.getElementById('summaryDeliveryCharge').textContent = `৳${deliveryCharge}`;
   document.getElementById('summaryTotal').textContent = `৳${total}`;
@@ -277,7 +279,6 @@ function validateForm() {
 
   const submitBtn = document.getElementById('submitOrder');
 
-  // Basic phone validation: must start with 01 and be 11 digits long
   const phoneValid = /^01\d{9}$/.test(phone);
 
   if (product && selectedProduct && name && phoneValid && area && address && size) {
@@ -292,7 +293,6 @@ async function handleOrderSubmit(event) {
   event.preventDefault();
   if (!selectedProduct) return;
 
-  // Extract form data
   const name = document.getElementById('customerName').value.trim();
   const phone = document.getElementById('customerPhone').value.trim();
   const area = document.getElementById('deliveryArea').value;
@@ -300,7 +300,6 @@ async function handleOrderSubmit(event) {
   const size = document.getElementById('productSize').value;
   const qty = parseInt(document.getElementById('productQuantity').value) || 1;
 
-  // Calculate charges
   let deliveryCharge = 0;
   if (area === 'inside') deliveryCharge = 70;
   else if (area === 'outside') deliveryCharge = 130;
@@ -308,7 +307,6 @@ async function handleOrderSubmit(event) {
   const productPrice = selectedProduct.offerPrice * qty;
   const total = productPrice + deliveryCharge;
 
-  // Prepare order object
   const order = {
     productId: selectedProduct.id,
     productName: selectedProduct.name,
@@ -324,20 +322,16 @@ async function handleOrderSubmit(event) {
     total: total
   };
 
-  // Save order to server
   try {
     await fetch('/api/orders', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(order)
     });
   } catch (err) {
     console.error('Failed to save order:', err);
   }
 
-  // Build WhatsApp message
   const messageLines = [
     'আসসালামু আলাইকুম 👋',
     'আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে ✅',
@@ -358,44 +352,33 @@ async function handleOrderSubmit(event) {
 
   const message = messageLines.join('\n');
 
-  // Format WhatsApp URL: convert phone to international (Bangladesh 880)
   const waNumber = '01711992409';
   const waInternational = waNumber.startsWith('01') ? '880' + waNumber.slice(1) : waNumber;
   const waURL = `https://wa.me/${waInternational}?text=${encodeURIComponent(message)}`;
 
-  // Open WhatsApp in new tab
   window.open(waURL, '_blank');
 
-  // Notify user on page
   alert('আপনার অর্ডার সফলভাবে গ্রহণ করা হয়েছে! আমাদের প্রতিনিধি কল করবে।');
 
-  // Reset form
   event.target.reset();
 
-  // Reset dropdown default
   const productSelect = document.getElementById('productSelect');
-  if (productSelect) {
-    productSelect.selectedIndex = 0;
-  }
+  if (productSelect) productSelect.selectedIndex = 0;
 
-  // Reset selected product to first
+  // Optional: reset selected product back to first
   if (products.length > 0) {
     selectedProduct = products[0];
-    heroIndex = 0;
-    renderHero();
-    applyHeroPosition();
+    updateSummary();
+    validateForm();
+    renderProductGrid();
+    // hero can continue auto without affecting order
   }
-
-  // Reset summary
-  updateSummary();
-  validateForm();
 }
 
 // Initialisation on DOM ready
 window.addEventListener('DOMContentLoaded', () => {
   fetchProducts();
 
-  // Update summary and validation when user interacts with form fields
   document.getElementById('productQuantity').addEventListener('change', () => {
     updateSummary();
     validateForm();
@@ -411,7 +394,7 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('customerPhone').addEventListener('input', validateForm);
   document.getElementById('customerAddress').addEventListener('input', validateForm);
 
-  // When product selection changes, update selected product
+  // ✅ Dropdown change = user intent (order product)
   const productSelectEl = document.getElementById('productSelect');
   if (productSelectEl) {
     productSelectEl.addEventListener('change', (e) => {
@@ -419,39 +402,17 @@ window.addEventListener('DOMContentLoaded', () => {
       const prod = products.find(p => p.id === val);
       if (prod) {
         selectProduct(prod, false, false);
+
+        // Sync hero to dropdown (optional nice UX)
+        const idx = products.findIndex(p => p.id === prod.id);
+        if (idx >= 0) {
+          heroIndex = idx;
+          applyHeroPosition();
+          restartHeroAuto();
+        }
       }
     });
   }
 
-  // Order form submission
   document.getElementById('orderForm').addEventListener('submit', handleOrderSubmit);
 });
-// Enhance WhatsApp button with selected product info
-const waBtn = document.getElementById("whatsappFloat");
-
-function updateWhatsAppLink(){
-  if (!waBtn || !selectedProduct) return;
-
-  const msg = [
-    "আসসালামু আলাইকুম 👋",
-    "আমি একটি জার্সি অর্ডার করতে চাই",
-    "",
-    `🏷 Product: ${selectedProduct.name}`,
-    `💰 Price: ৳${selectedProduct.offerPrice}`,
-    "",
-    "দয়া করে বিস্তারিত জানান"
-  ].join("\n");
-
-  const number = "8801711992409";
-  waBtn.href = `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
-}
-
-// Update whenever product changes
-const originalSelectProduct = selectProduct;
-selectProduct = function(...args){
-  originalSelectProduct.apply(this, args);
-  updateWhatsAppLink();
-};
-
-// Initial call
-document.addEventListener("DOMContentLoaded", updateWhatsAppLink);

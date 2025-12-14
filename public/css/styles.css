@@ -35,7 +35,7 @@ body {
   color: #0f172a;
   line-height: 1.5;
 
-  /* ✅ Soft textured background */
+  /* Soft textured background */
   background:
     radial-gradient(1200px 800px at 10% 10%, rgba(34,197,94,.18), transparent 55%),
     radial-gradient(900px 700px at 90% 15%, rgba(59,130,246,.14), transparent 50%),
@@ -57,20 +57,19 @@ img { max-width: 100%; display: block; }
 section { padding: 2rem 0; }
 
 /* =========================
-   HERO SECTION (FIXED)
+   HERO SECTION
    ========================= */
 
 .hero {
   position: relative;
 
-  /* ✅ Standard hero color (navy) + subtle texture */
   background:
     radial-gradient(900px 700px at 20% 20%, rgba(34,197,94,.18), transparent 60%),
     radial-gradient(900px 700px at 80% 10%, rgba(59,130,246,.16), transparent 55%),
     linear-gradient(135deg, var(--bg) 0%, var(--bg2) 100%);
 
   color: var(--white);
-  padding: 3.25rem 1.25rem 2.5rem;
+  padding: 2rem 1.25rem 2.25rem;
   border-radius: 0 0 1.25rem 1.25rem;
   box-shadow: var(--shadow);
 
@@ -79,7 +78,7 @@ section { padding: 2rem 0; }
   gap: 1.25rem;
 }
 
-/* ✅ brand bar should be on top, full width, NOT breaking layout */
+/* Brand bar (NO absolute = no overlay) */
 .brand-bar{
   width: 100%;
   display: flex;
@@ -90,7 +89,7 @@ section { padding: 2rem 0; }
 
   background: rgba(255,255,255,0.10);
   border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 0.85rem;
+  border-radius: 0.95rem;
   backdrop-filter: blur(10px);
 }
 
@@ -98,7 +97,7 @@ section { padding: 2rem 0; }
   display: flex;
   align-items: center;
   gap: .75rem;
-  min-width: 0; /* ✅ prevents overflow */
+  min-width: 0;
 }
 
 .brand-logo{
@@ -135,8 +134,8 @@ section { padding: 2rem 0; }
 .brand-link{
   background: rgba(255,255,255,0.10);
   border: 1px solid rgba(255,255,255,0.18);
-  padding: 0.55rem 0.8rem;
-  border-radius: 0.7rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 0.75rem;
   font-weight: 800;
   color: #fff;
   display: inline-flex;
@@ -145,7 +144,6 @@ section { padding: 2rem 0; }
   white-space: nowrap;
   transition: transform .12s ease, background .12s ease;
 }
-
 .brand-link:hover{
   background: rgba(255,255,255,0.16);
   transform: translateY(-1px);
@@ -162,7 +160,6 @@ section { padding: 2rem 0; }
   margin-bottom: 0.75rem;
   letter-spacing: -0.02em;
 }
-
 .hero h1 span { display: block; }
 
 .price-block {
@@ -172,17 +169,12 @@ section { padding: 2rem 0; }
   gap: 0.9rem;
   margin-bottom: 1rem;
 }
-
-.price-block del {
-  font-size: 1.15rem;
-  opacity: 0.65;
-}
-
+.price-block del { font-size: 1.15rem; opacity: 0.65; }
 .price-block ins {
   font-size: 2.1rem;
   font-weight: 900;
   text-decoration: none;
-  color: #a7f3d0; /* mint for premium */
+  color: #a7f3d0;
 }
 
 .delivery-promise {
@@ -218,7 +210,7 @@ section { padding: 2rem 0; }
   background: var(--accent2);
 }
 
-/* ===== HERO CAROUSEL (cleaner size) ===== */
+/* ===== HERO CAROUSEL (square) ===== */
 .hero-image { width: 100%; }
 
 .hero-carousel{
@@ -246,16 +238,18 @@ section { padding: 2rem 0; }
   position: relative;
   background: #fff;
   cursor: pointer;
+
+  aspect-ratio: 1 / 1;   /* ✅ square */
+  overflow: hidden;
 }
 
 .hero-slide img{
   width: 100%;
-  height: 430px;
+  height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-/* overlay */
+/* overlay inside slide */
 .hero-slide-overlay{
   position: absolute;
   left: 12px;
@@ -315,7 +309,7 @@ section { padding: 2rem 0; }
 .hero-nav.prev{ left: 10px; }
 .hero-nav.next{ right: 10px; }
 
-/* dots - make them smaller & cleaner */
+/* dots */
 .hero-dots{
   display: flex;
   gap: 6px;
@@ -333,42 +327,34 @@ section { padding: 2rem 0; }
 }
 .hero-dot.active{ background: #a7f3d0; }
 
-/* Desktop layout fix */
+/* ✅ Desktop layout without overlay (GRID) */
 @media (min-width: 900px) {
   .hero{
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 2rem;
-    padding: 3.5rem 2rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "brand brand"
+      "content image";
+    gap: 1.5rem;
+    align-items: start;
+    padding: 2.25rem 2rem 2.5rem;
   }
 
-  .brand-bar{
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    right: 1rem;
-  }
-
+  .brand-bar{ grid-area: brand; }
   .hero-content{
-    flex: 1;
+    grid-area: content;
     text-align: left;
-    margin-top: 3.25rem; /* leaves space for brand bar */
   }
+  .hero-image{ grid-area: image; }
 
   .price-block,
   .delivery-promise{
     justify-content: flex-start;
   }
-
-  .hero-image{
-    flex: 1;
-    margin-top: 3.25rem; /* aligns with content under brand bar */
-  }
 }
 
+/* ✅ Mobile brand stacking */
 @media (max-width: 768px){
-  .hero-slide img{ height: 320px; }
-
   .brand-bar{
     flex-direction: column;
     align-items: flex-start;
@@ -380,7 +366,7 @@ section { padding: 2rem 0; }
 }
 
 /* =========================
-   REST OF YOUR PAGE (same, cleaner cards)
+   REST OF PAGE
    ========================= */
 
 /* Trust bar */
@@ -442,6 +428,12 @@ section { padding: 2rem 0; }
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(15,23,42,.08);
   border: 1px solid rgba(15,23,42,.06);
+  aspect-ratio: 1 / 1; /* ✅ square gallery */
+}
+.gallery img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .gallery figcaption {
   padding: 0.65rem;
@@ -632,9 +624,10 @@ section { padding: 2rem 0; }
   box-shadow: 0 10px 25px rgba(15,23,42,.06);
 }
 .product-card:hover{ transform: translateY(-2px); }
-.product-card img {
+.product-card img{
   width: 100%;
-  height: auto;
+  aspect-ratio: 1 / 1;   /* ✅ square */
+  object-fit: cover;
   border-radius: 0.7rem;
   margin-bottom: 0.6rem;
 }
@@ -711,6 +704,7 @@ section { padding: 2rem 0; }
 @media (max-width: 900px){
   .footer-inner{ grid-template-columns: 1fr; }
 }
+
 /* =========================
    STICKY WHATSAPP BUTTON
    ========================= */
@@ -768,12 +762,7 @@ section { padding: 2rem 0; }
   opacity: .9;
 }
 
-/* Mobile optimization */
 @media (max-width: 480px){
-  .whatsapp-float{
-    padding: 0.7rem;
-  }
-  .wa-text{
-    display: none; /* icon-only on small screens */
-  }
+  .whatsapp-float{ padding: 0.7rem; }
+  .wa-text{ display: none; }
 }
